@@ -27,7 +27,7 @@ def set_sampler():
 def employee_preferences():
     '''Returns a dictionary of employees with their preferences'''
 
-    preferences = { "Anna": [1,2,3,4],
+    preferences = { "Anna": [1,2,3,100],
                     "Bill": [3,2,1,4],
                     "Chris": [4,2,3,1],
                     "Diane": [4,1,2,3],
@@ -63,6 +63,11 @@ def build_cqm():
     # TODO: Restrict Anna from working shift 4
 
     # TODO: Set constraints to reflect the restrictions in the README.
+    for i in range(num_shifts):
+        cqm.add_constraint_from_iterable([(f"x_Bill_{i}", f"x_Frank_{i}", 1)],"==",0)
+        cqm.add_constraint_from_iterable([(f"x_Erica_{i}",1), (f"x_Harriet_{i}", -1)],"==",0)
+        
+        cqm.add_constraint_from_iterable([(f"x_{name}_{i}",1)for name in preferences],"==",2)
 
     return cqm
 
